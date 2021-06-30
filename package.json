@@ -7,12 +7,17 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "vue": "^3.0.5"
+    "vant": "^3.1.1",
+    "vite-plugin-md": "^0.6.7",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.10"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.3",
     "@vue/compiler-sfc": "^3.0.5",
     "less": "^4.1.1",
-    "vite": "^2.3.8"
+    "postcss-px-to-viewport": "^1.1.1",
+    "vite": "^2.3.8",
+    "vite-plugin-style-import": "^1.0.1"
   }
 }
