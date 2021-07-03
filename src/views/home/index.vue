@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar title="首页" />
+    <van-nav-bar title="前端无忧网" fixed />
     <van-pull-refresh v-model="state.refreshing" @refresh="onRefresh">
         <van-list v-model:loading="state.loading" :finished="state.finished" finished-text="没有更多了" @load="onLoad">
             <articleItem v-for="(item, index) of state.list" :key="index" :data="item" @click="goTo(item.id)"></articleItem>
@@ -11,12 +11,13 @@
 
 <script setup>
 import articleItem from './components/article-item.vue';
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import { Toast } from 'vant';
+const instance = getCurrentInstance();
+const { $axios } = instance.proxy;
 const router = useRouter();
-
+console.log(instance.proxy.$axios);
 const state = reactive({
     pageIndex: 0,
     pageSize: 10,
@@ -34,7 +35,7 @@ const onLoad = async () => {
             pageIndex: state.pageIndex,
             pageSize: state.pageSize,
         };
-        let res = await axios.get('http://localhost:8888/api/default/news/list?type=1', { params: params });
+        let res = await $axios.get('/news/list?type=1', { params: params });
         let data = res.data.data;
         if (state.refreshing) {
             state.list = [];

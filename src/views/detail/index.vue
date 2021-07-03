@@ -1,36 +1,39 @@
 <template>
-    <van-nav-bar title="标题" left-text="返回" left-arrow @click-left="goTo" />
+    <van-nav-bar :title="detailData && detailData.title" left-text="返回" fixed left-arrow @click-left="goTo" />
     <div class="article" v-if="detailData">
         <h2 class="article-title">{{ detailData.title }}</h2>
-        <div class="article-cotent" v-html="detailData.content"></div>
+        <div class="article-content" v-html="detailData.content"></div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, getCurrentInstance, onActivated } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+const instance = getCurrentInstance();
+const { $axios } = instance.proxy;
 const router = useRouter();
 const route = useRoute();
-onMounted(() => {
+onActivated(() => {
     getDetail();
 });
 let detailData = ref(null);
 const getDetail = async id => {
-    let res = await axios(`http://localhost:8888/api/default/news/detail/${route.query.id}`);
+    let res = await $axios(`/news/detail/${route.query.id}`);
     console.log(res);
     let data = res.data.data;
     detailData.value = data;
 };
 console.log(detailData);
 const goTo = () => {
-    router.push('/');
+    router.back();
 };
 </script>
 
 <style lang="less" scoped>
 .article {
     padding: 20px;
+    background: #fff;
+    overflow: hidden;
     &-title {
         font-size: 18px;
         text-align: center;
@@ -39,12 +42,16 @@ const goTo = () => {
     }
     &-content {
         font-size: 14px;
-        line-height: 1.5;
-        color: #666;
-        :deep(p) {
+        line-height: 28px;
+        color: #333;
+        &:deep(p),
+        &:deep(div) {
             font-size: 14px;
-            line-height: 3;
-            color: #666;
+            line-height: 28px;
+            color: #333;
+        }
+        &:deep(img) {
+            max-width: 100%;
         }
     }
 }

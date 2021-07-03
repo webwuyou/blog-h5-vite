@@ -1,5 +1,9 @@
 <template>
-    <router-view />
+    <router-view v-slot="{ Component }">
+        <keep-alive>
+            <component :is="Component"></component>
+        </keep-alive>
+    </router-view>
     <van-tabbar v-model="active">
         <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
         <van-tabbar-item icon="search" to="/category">分类</van-tabbar-item>
