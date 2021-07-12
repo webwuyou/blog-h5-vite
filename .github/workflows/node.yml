@@ -7,11 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      uses: actions/setup-node@v2
+      - name: Setup Node.js environment
+      uses: actions/setup-node@v2.2.0
       with:
-        node-version:12.x
+        node-version: 12.x
       run: |
-        echo eche blog-h5-vite,
+        eche blog-h5-vite,
         node -v,
         npm -v,
         echo success
